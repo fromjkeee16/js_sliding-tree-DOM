@@ -7,19 +7,16 @@ createExpandableTree(root);
 function createExpandableTree(element) {
   for (const child of element.children) {
     const innerUl = child.querySelector('ul');
+    const textNode = findTextNode(child);
 
-    if (!innerUl) {
+    if (!(innerUl && textNode)) {
       return;
     }
 
-    const textNode = findTextNode(child);
-    let title;
+    const title = document.createElement('span');
 
-    if (textNode) {
-      title = document.createElement('span');
-      title.textContent = textNode.textContent.trim();
-      textNode.replaceWith(title);
-    }
+    title.textContent = textNode.textContent.trim();
+    textNode.replaceWith(title);
 
     title.addEventListener('click', () => {
       innerUl.style.display = innerUl.style.display === 'none' ? '' : 'none';
